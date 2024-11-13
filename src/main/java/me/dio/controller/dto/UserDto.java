@@ -16,6 +16,16 @@ public record UserDto(
         List<FeatureDto> features,
         List<NewsDto> news) {
 
+    public UserDto {
+        // Validações simples
+        if (id == null) {
+            throw new IllegalArgumentException("ID não pode ser nulo");
+        }
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Nome não pode ser nulo ou vazio");
+        }
+    }
+
     public UserDto(User model) {
         this(
                 model.getId(),
@@ -37,6 +47,4 @@ public record UserDto(
         model.setNews(ofNullable(this.news).orElse(emptyList()).stream().map(NewsDto::toModel).collect(toList()));
         return model;
     }
-
 }
-
